@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"github.com/shani34/AssurePay/backend/models" // Import the Account model
+	"github.com/shani34/AssurePay/backend/connection"
+
 )
 
-var accounts []models.Account
 
 func CreateAccountHandler(w http.ResponseWriter, r *http.Request) {
 	var newAccount models.Account
@@ -15,12 +16,17 @@ func CreateAccountHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	newAccount.ID = len(accounts) + 1
-	accounts = append(accounts, newAccount)
+	db:=connection.DBConnection()
+    db.Create(&newAccount)
 	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(newAccount)
+	
 }
 
 func GetAccountsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	db:=connection.DBConnection()
+	var accounts []models.Account
+    db.Find(&accounts)
 	json.NewEncoder(w).Encode(accounts)
 }
