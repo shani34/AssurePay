@@ -22,7 +22,7 @@ func DBConnection() *gorm.DB{
 		log.Fatal(err)
 	}
  
-	err=db.AutoMigrate(&models.Account{},&models.Transaction{})
+	err=db.AutoMigrate(&models.Account{},&models.Transaction{},models.Users{})
     if err!=nil{
 		log.Fatal("error while migrating!",err)
 	}
