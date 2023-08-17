@@ -37,10 +37,41 @@
     display: flex;
     justify-content: flex-end;
   }
-  
-  .button-container button {
+
+
+  .sign-in-button {
+    background-color: rgb(240, 117, 117); /* Light gray for Sign In */
     padding: 10px 20px;
-    background-color: #007bff;
+    margin-right: 5px;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .sign-up-button {
+    background-color: lightgreen; /* Light green for Sign Up */
+    padding: 10px 20px;
+    margin-right: 5px;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .sign-in-button:hover {
+    background-color:darkred; /* Light gray for Sign In */
+    padding: 10px 20px;
+    margin-right: 5px;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .sign-up-button:hover {
+    background-color: darkgreen; /* Light green for Sign Up */
+    padding: 10px 20px;
+    margin-right: 5px;
     color: #ffffff;
     border: none;
     border-radius: 4px;
