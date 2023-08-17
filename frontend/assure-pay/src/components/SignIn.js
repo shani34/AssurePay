@@ -48,8 +48,8 @@ const SignIn = () => {
 
   return (
     <div className="container">
-      <div className="error-message">{errorMessage}</div>
       <form onSubmit={handleSubmit} className="form-container">
+      <div className="error-message">{errorMessage}</div>
         <div className="input-group">
           <input
             type="email"
