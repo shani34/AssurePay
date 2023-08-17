@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from '../api/axios';
-import './styles.css'
+import  styles from './styles.module.css'
 import Welcome from './welcome';
-// import SignUp from './SignUp';
 const SignIn = () => {
   const [username, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -88,13 +87,15 @@ const SignIn = () => {
   };
 
   return (
-    <div className="container">
+    <div className={styles.container}>
+        <div className={styles.content}>
+     <h1 className='assurepay'>Welcome to AssurePay</h1>
     {isLoggedIn ? ( // Conditionally render based on authentication status
         <Welcome username={username} />
       ):(
-      <form onSubmit={isSignInForm ? handleSubmit : handleSignUp} className="form-container">
-      <div className="error-message">{errorMessage}</div>
-        <div className="input-group">
+      <form onSubmit={isSignInForm ? handleSubmit : handleSignUp} className={styles.formContainer}>
+      <div className={styles.errorMessage}>{errorMessage}</div>
+        <div className={styles.group}>
           <input
             type="email"
             placeholder="Email"
@@ -103,7 +104,7 @@ const SignIn = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="input-group">
+        <div className={styles.group}>
           <input
             type="password"
             placeholder="Password"
@@ -113,7 +114,7 @@ const SignIn = () => {
           />
         </div>
         {isSignInForm ? null : (  // Conditional rendering for retype password field
-          <div className="input-group">
+          <div  className={styles.group}>
             <input
               type="password"
               placeholder="Retype Password"
@@ -123,13 +124,14 @@ const SignIn = () => {
             />
           </div>
         )}
-        <div className="button-container">
-        <button type="submit"  className={isSignInForm ? 'sign-in-button' : 'sign-up-button'}>{isSignInForm ? 'Sign In' : 'Sign Up'}</button>
+        <div className={styles.button}>
+        <button type="submit"  className={isSignInForm ? styles.signInButton : styles.signUpButton}>{isSignInForm ? 'Sign In' : 'Sign Up'}</button>
           <button type="submit" onClick={toggleForm}>
             {isSignInForm ? 'Switch to Sign Up' : 'Switch to Sign In'}</button>
         </div>
       </form>
       )}
+      </div>
     </div>
   );
 };

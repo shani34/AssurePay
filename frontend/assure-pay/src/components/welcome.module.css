@@ -1,0 +1,48 @@
+/* welcome.module.css */
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align items to the top */
+  height: 100vh;
+  background: #f3eaea;
+}
+
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  animation: fadeInUp 1s ease-in-out; /* Add animation */
+}
+
+.actionButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.2s, transform 0.2s; /* Add transition for transform */
+}
+
+.actionButton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05); /* Add scale effect on hover */
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Rest of the styles remain the same */

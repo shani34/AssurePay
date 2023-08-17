@@ -10,7 +10,7 @@
   }
   
   /* Form styling */
-  .form-container {
+  .formContainer {
     background-color: #ffffff;
     border-radius: 8px;
     align-items: center;
@@ -18,14 +18,18 @@
     padding: 20px;
     width: 350px;
   }
+
+  .content {
+    text-align: center; /* Center the content horizontally */
+  }
   
   /* Input group styling */
-  .input-group {
+  .group {
     margin-bottom: 15px;
     margin-right: 5px;
   }
   
-  .input-group input {
+  .group input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -33,13 +37,13 @@
   }
   
   /* Button container styling */
-  .button-container {
+  .button {
     display: flex;
     justify-content: flex-end;
   }
 
 
-  .sign-in-button {
+  .signInButton {
     background-color: rgb(240, 117, 117); /* Light gray for Sign In */
     padding: 10px 20px;
     margin-right: 5px;
@@ -49,7 +53,7 @@
     cursor: pointer;
   }
   
-  .sign-up-button {
+  .signUpButton {
     background-color: lightgreen; /* Light green for Sign Up */
     padding: 10px 20px;
     margin-right: 5px;
@@ -59,7 +63,7 @@
     cursor: pointer;
   }
 
-  .sign-in-button:hover {
+  .signInButton:hover {
     background-color:darkred; /* Light gray for Sign In */
     padding: 10px 20px;
     margin-right: 5px;
@@ -68,7 +72,7 @@
     border-radius: 4px;
     cursor: pointer;
   }
-  .sign-up-button:hover {
+  .signUpButton:hover {
     background-color: darkgreen; /* Light green for Sign Up */
     padding: 10px 20px;
     margin-right: 5px;
@@ -79,7 +83,7 @@
   }
   
   /* Error message styling */
-  .error-message {
+  .errorMessage {
     color: red;
     margin-bottom: 20px;
     font-size: 14px;
