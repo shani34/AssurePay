@@ -3,7 +3,9 @@ module github.com/shani34/AssurePay/backend
 go 1.20
 
 require (
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/gorilla/mux v1.8.0
+	github.com/rs/cors v1.9.0
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/gorm v1.25.3
 )

@@ -23,6 +23,7 @@ type Claims struct{
 
 func SignIn(w http.ResponseWriter, r *http.Request){
 	var user models.Users
+    w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type, set-cookie")
 
      err:=json.NewDecoder(r.Body).Decode(&user)
 	 if err!=nil{
@@ -72,6 +73,8 @@ func SignIn(w http.ResponseWriter, r *http.Request){
 	Value: tokenStr,
 	Expires: expTime,
    })
+   user.Cookie=tokenStr
+   _=json.NewEncoder(w).Encode(user)
 
 }
 
