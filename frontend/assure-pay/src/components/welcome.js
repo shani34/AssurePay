@@ -41,10 +41,10 @@ const Welcome = () => {
             <a href="/about" onClick={About} >About</a>
           </li>
           <li>
-            <a href="#">Career</a>
+            <a href="/career">Career</a>
           </li>
           <li>
-            <a href="#">Logout</a>
+            <a href="/logout">Logout</a>
           </li>
         </ul>
       </nav>

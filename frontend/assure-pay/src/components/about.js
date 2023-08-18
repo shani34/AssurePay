@@ -1,8 +1,34 @@
 import React from "react";
 import styles from './about.module.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import user from '../logo/AssurePay.png'
 const About = () => {
   return (
     <div className={styles.about}>
+     <header className={styles.header}>
+        <img
+          src={user}
+          alt="AssurePay Logo"
+          className={styles.logo}
+        />
+     </header>
+     <div className={styles.sidebar}>
+      <nav className={styles.sidebar}>
+        <ul className={styles.navLinks}>
+          <li>
+            <a href="/about" onClick={About} >About</a>
+          </li>
+          <li>
+            <a href="/career">Career</a>
+          </li>
+          <li>
+            <a href="/logout">Logout</a>
+          </li>
+        </ul>
+      </nav>
+      </div>
+
       <div className={styles.aboutHeader}>
         <h1>About Us</h1>
       </div>
@@ -46,6 +72,20 @@ const About = () => {
         <p>
           Join AssurePay and experience the future of financial services. Say goodbye to the complexities of managing accounts and loans – say hello to a seamless, efficient, and empowered financial journey with AssurePay.
         </p>
+      </div>
+      <div className={styles.followUs}>
+        <p>Follow us on:</p>
+        <div className={styles.socialMedia}>
+          <a href="https://facebook.com" className={styles.socialLink}>
+            <FontAwesomeIcon icon={faFacebook} className={styles.icon}/>
+          </a>
+          <a href="https://twitter.com" className={styles.socialLink}>
+            <FontAwesomeIcon icon={faTwitter} className={styles.icon}/>
+          </a>
+          <a href="https://instagram.com" className={styles.socialLink}>
+            <FontAwesomeIcon icon={faInstagram}className={styles.icon}/>
+          </a>
+        </div>
       </div>
       <footer className={styles.footer}>
           <p>&copy; 2023 AssurePay. All rights reserved.</p>
