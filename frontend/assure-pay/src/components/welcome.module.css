@@ -10,19 +10,6 @@
   background-color: #ADD8E6;
 }
 
-/* .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  /* background-color: ; */
-  /* z-index: 1000; Ensure the header is above other content */
-/* } */ 
-
 .logo {
   width: 200px;
   height: 119px;
