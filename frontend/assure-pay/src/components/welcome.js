@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './welcome.module.css';
 import user from '../logo/AssurePay.png'
+import About from './about'
 
 const Welcome = () => {
 
@@ -37,7 +38,7 @@ const Welcome = () => {
       <nav className={styles.sidebar}>
         <ul className={styles.navLinks}>
           <li>
-            <a href="#">About</a>
+            <a href="/about" onClick={About} >About</a>
           </li>
           <li>
             <a href="#">Career</a>
