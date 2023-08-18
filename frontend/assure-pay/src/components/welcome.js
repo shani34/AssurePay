@@ -56,10 +56,18 @@ const Welcome = () => {
       <div className={styles.content}>
         <h1>Welcome!</h1>
         <div className={styles.button}>
-          <button className={styles.actionButton}>Create New Account</button>
+           <a href='/createAccount'>
+          <button className={styles.actionButton} >Create New Account</button>
+          </a>
+          <a href='/transactionHistory'>
           <button className={styles.actionButton}>Transaction History</button>
+          </a>
+          <a href='/updateDetails'>
           <button className={styles.actionButton}>Update Details</button>
+          </a>
+          <a href='/checkBalance'>
           <button className={styles.actionButton}>Check Balance</button>
+          </a>
         </div>
         <div className={styles.followUs}>
         <p>Follow us on:</p>
