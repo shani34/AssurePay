@@ -1,20 +1,93 @@
 /* welcome.module.css */
 
+/* Main container */
 .welcome {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 100vh;
+  background-color: #ADD8E6;
+}
+
+/* .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* background-color: ; */
+  /* z-index: 1000; Ensure the header is above other content */
+/* } */ 
+
+.logo {
+  width: 200px;
+  height: 119px;
+  object-fit: cover;
+  cursor: pointer;
+  position: fixed;
+}
+
+.sidebar {
+  width: 200px;
+  height: 100%;
+  background-color: #333;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: left 0.3s;
+  overflow-y: auto;
+  margin-top: 119px;
+}
+
+.sidebarOpen {
+  left: 0;
+  transition: left 0.3s;
+}
+
+/* Navigation links */
+.navLinks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  padding-top: 2rem;
+}
+
+.navLinks li {
+  margin-bottom: 15px;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+  transition: color 0.2s;
+}
+
+.navLinks a:hover {
+  color: #007bff;
+}
+
+/* Content section */
+.content {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Align items to the top */
-  height: 100vh;
-  background: #f3eaea;
+  justify-content: center;
 }
 
-
-.buttons {
+/* Buttons section */
+.button {
   display: flex;
   justify-content: center;
   margin-top: 2rem;
-  animation: fadeInUp 1s ease-in-out; /* Add animation */
+  animation: fadeInUp 1s ease-in-out;
 }
 
 .actionButton {
@@ -26,12 +99,20 @@
   cursor: pointer;
   border-radius: 5px;
   font-size: 1rem;
-  transition: background-color 0.2s, transform 0.2s; /* Add transition for transform */
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 .actionButton:hover {
   background-color: #0056b3;
-  transform: scale(1.05); /* Add scale effect on hover */
+  transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 1rem;
 }
 
 @keyframes fadeInUp {
@@ -44,5 +125,3 @@
     transform: translateY(0);
   }
 }
-
-/* Rest of the styles remain the same */

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './welcome.module.css';
+import user from '../logo/AssurePay.png'
 
 const Welcome = () => {
-  const [welcomeMessage, setWelcomeMessage] = useState('');
 
   useEffect(() => {
     axios
@@ -11,7 +11,7 @@ const Welcome = () => {
         withCredentials: true,
       })
       .then((response) => {
-        setWelcomeMessage(response.data);
+            console.log(response.data)
       })
       .catch((error) => {
         if (error.response && error.response.status) {
@@ -21,20 +21,46 @@ const Welcome = () => {
       });
   }, []);
 
+
+
   return (
+
     <div className={styles.welcome}>
+       <header className={styles.header}>
+        <img
+          src={user}
+          alt="AssurePay Logo"
+          className={styles.logo}
+        />
+        </header>
+      <div className={styles.sidebar}>
+      <nav className={styles.sidebar}>
+        <ul className={styles.navLinks}>
+          <li>
+            <a href="#">About</a>
+          </li>
+          <li>
+            <a href="#">Career</a>
+          </li>
+          <li>
+            <a href="#">Logout</a>
+          </li>
+        </ul>
+      </nav>
+      </div>
+      <div className={styles.content}>
         <h1>Welcome!</h1>
-        <p>{welcomeMessage}</p>
         <div className={styles.button}>
           <button className={styles.actionButton}>Create New Account</button>
           <button className={styles.actionButton}>Transaction History</button>
-          <button className={styles.actionButton}>Update User Details</button>
+          <button className={styles.actionButton}>Update Details</button>
           <button className={styles.actionButton}>Check Balance</button>
+        </div>
+        <footer className={styles.footer}>
+          <p>&copy; 2023 AssurePay. All rights reserved.</p>
+        </footer>
       </div>
-      <footer className={styles.button}>
-        <p>&copy; 2023 AssurePay. All rights reserved.</p>
-      </footer>
-    </div>
+   </div>
   );
 };
 

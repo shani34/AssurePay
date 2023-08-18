@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from '../api/axios';
-import  styles from './styles.module.css'
+import styles from './styles.module.css'
 import Welcome from './welcome';
+import {useNavigate} from 'react-router-dom'
 const SignIn = () => {
   const [username, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -9,6 +10,7 @@ const SignIn = () => {
   const [repassword, retypePassword] = useState('');
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [isLoggedIn, setLoggedIn]=useState(false);
+  const navigate=useNavigate();
   const toggleForm = () => {
     setIsSignInForm((prevIsSignInForm) => !prevIsSignInForm);
   };
@@ -28,6 +30,7 @@ const SignIn = () => {
         console.log(token)
         setLoggedIn(true)
         window.alert("successfully logged in")
+        navigate('/welcome');
        axios.defaults.headers.common['Authorization']=`Bearer ${token}`;
        }else{
         console.log("user does not exist");
