@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import styles from './welcome.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import user from '../logo/AssurePay.png'
-import About from './about'
 
 const Welcome = () => {
 
@@ -37,8 +38,11 @@ const Welcome = () => {
       <div className={styles.sidebar}>
       <nav className={styles.sidebar}>
         <ul className={styles.navLinks}>
+        <li>
+            <a href="/welcome"  >Home</a>
+         </li>  
           <li>
-            <a href="/about" onClick={About} >About</a>
+            <a href="/about">About</a>
           </li>
           <li>
             <a href="/career">Career</a>
@@ -56,6 +60,20 @@ const Welcome = () => {
           <button className={styles.actionButton}>Transaction History</button>
           <button className={styles.actionButton}>Update Details</button>
           <button className={styles.actionButton}>Check Balance</button>
+        </div>
+        <div className={styles.followUs}>
+        <p>Follow us on:</p>
+        <div className={styles.socialMedia}>
+          <a href="https://facebook.com" className={styles.socialLink}>
+            <FontAwesomeIcon icon={faFacebook} className={styles.icon}/>
+          </a>
+          <a href="https://twitter.com" className={styles.socialLink}>
+            <FontAwesomeIcon icon={faTwitter} className={styles.icon}/>
+          </a>
+          <a href="https://instagram.com" className={styles.socialLink}>
+            <FontAwesomeIcon icon={faInstagram}className={styles.icon}/>
+          </a>
+        </div>
         </div>
         <footer className={styles.footer}>
           <p>&copy; 2023 AssurePay. All rights reserved.</p>

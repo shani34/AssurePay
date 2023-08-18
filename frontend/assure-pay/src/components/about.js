@@ -16,14 +16,17 @@ const About = () => {
      <div className={styles.sidebar}>
       <nav className={styles.sidebar}>
         <ul className={styles.navLinks}>
+         <li>
+            <a href="/welcome" >Home</a>
+         </li>  
           <li>
-            <a href="/about" onClick={About} >About</a>
+            <a href="/about"  >About</a>
           </li>
           <li>
             <a href="/career">Career</a>
           </li>
           <li>
-            <a href="/logout">Logout</a>
+            <a href="/">Logout</a>
           </li>
         </ul>
       </nav>
