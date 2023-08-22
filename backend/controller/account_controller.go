@@ -10,6 +10,7 @@ import (
 
 	"github.com/shani34/AssurePay/backend/connection"
 	"github.com/shani34/AssurePay/backend/models"
+	"gopkg.in/gomail.v2"
 )
 
 
@@ -21,7 +22,7 @@ func CreateAccountHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	if (newAccount.AccountHolder==""|| newAccount.Balance<2500 || 
+	if (newAccount.AccountHolder==""|| newAccount.Balance<2500 || newAccount.Email==""||
 	newAccount.Adhaar==""||newAccount.BankName==""||newAccount.FullName==""||newAccount.DOB==""||newAccount.Nominee==""){
          http.Error(w,"invalid fields",http.StatusBadRequest)
 		 return 
@@ -47,8 +48,15 @@ func CreateAccountHandler(w http.ResponseWriter, r *http.Request) {
 	randomNumber := generateRandomNumber(14)
 	newAccount.AccountNumber=int64(randomNumber)
 	
-	
+	//for creating new account
+	err=email(newAccount.Email,newAccount.AccountNumber)
+	if err!=nil{
+		w.Write([]byte(fmt.Sprint(err)))
+		w.WriteHeader(http.StatusBadRequest)
+		return 
+	}
     db.Create(&newAccount)
+
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(newAccount)
 	
@@ -68,6 +76,27 @@ func intPow(base, exponent int) int {
 	return result
 }
 
+func email(email string, accountNumber int64)error{
+	d := gomail.NewDialer("smtp.gmail.com", 587, "shani.mnnit18@gmail.com", "ldysplzxzfwyskzj")
+
+	accountNumberStr := fmt.Sprintf("%d", accountNumber)
+	// Create a new email message
+	m := gomail.NewMessage()
+	m.SetHeader("From", "shani.mnnit18@gmail.com")
+	m.SetHeader("To", email)
+	m.SetHeader("Subject", "Account Created Successfully on assurePay")
+	m.SetBody("text/plain", "Your account has been successfully created. Your account number is : "+accountNumberStr)
+
+	fmt.Println(m)
+	// Send the email
+	if err := d.DialAndSend(m); err != nil {
+		return err
+	} else {
+		fmt.Println("Email sent successfully")
+	}
+
+	return nil
+}
 func GetAccountsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	db:=connection.DBConnection()

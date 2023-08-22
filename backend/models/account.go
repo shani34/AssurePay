@@ -15,6 +15,7 @@ type Account struct {
 	Nominee		string `json:"nominee"`
 	Adhaar  		string 	`json:"adhaar"`
 	Balance  float64 `json:"balance"`
+	Email    string `json:"email"`
 	BankName	string `json:"bankName"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
