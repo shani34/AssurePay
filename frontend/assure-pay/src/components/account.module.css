@@ -1,0 +1,63 @@
+/* Styles for the CreateAccountForm component */
+
+.BackGround{
+    background-color:#ADD8E6;
+    min-height: 100vh; 
+    background-repeat: no-repeat;  
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.createAccountForm {
+    max-width: 410px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color:#c9d1d3;
+  }
+  
+  /* Styles for the form elements */
+  .createAccountForm h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .createAccountForm label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .createAccountForm input,.createAccountForm select {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 15px;
+
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .createAccountForm button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .createAccountForm button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Optional logo styling */
+  .logo {
+    display: block;
+    max-width: 100px;
+    margin: 0 auto 20px;
+  }
+  
