@@ -21,7 +21,7 @@ func CreateTransactionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//checking if any field are missing 
-	if(newTransaction.AccountNumber<0|| newTransaction.Amount<=0.00||newTransaction.Message==""){
+	if(newTransaction.AccountNumber<0|| newTransaction.Amount<=0.00||(newTransaction.Message!="withdraw" && newTransaction.Message!="credit")){
 		w.Write([]byte("invalid crednetials"))
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -37,15 +37,22 @@ func CreateTransactionHandler(w http.ResponseWriter, r *http.Request) {
 	   return
 	}
 
+	subject:=""
 	if (newTransaction.Message=="withdraw" && account.Balance>=newTransaction.Amount){
 		account.Balance-=newTransaction.Amount
+		subject=fmt.Sprintf("%v",newTransaction.Amount)+" debited"
+		newTransaction.TotalAmount=account.Balance
 		db.Model(&models.Account{}).Where("account_number=?",account.AccountNumber).Update("balance",account.Balance)
 	}
 	if (newTransaction.Message=="credit" && account.Balance>=newTransaction.Amount){
 		account.Balance+=newTransaction.Amount
+		subject=fmt.Sprintf("%v",newTransaction.Amount)+" credited"
+		newTransaction.TotalAmount=account.Balance
 		db.Model(&models.Account{}).Where("account_number=?",account.AccountNumber).Update("balance",account.Balance)
 	}
 	//
+	body:=subject+" from account : "
+	email(account.Email,account.AccountNumber,subject,body)
 	db.Create(&newTransaction)
 
 
@@ -58,3 +65,4 @@ func GetTransactionsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(transactions)
 }
+

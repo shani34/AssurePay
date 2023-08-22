@@ -49,7 +49,9 @@ func CreateAccountHandler(w http.ResponseWriter, r *http.Request) {
 	newAccount.AccountNumber=int64(randomNumber)
 	
 	//for creating new account
-	err=email(newAccount.Email,newAccount.AccountNumber)
+	subject:="Account Created Successfully on assurePay"
+	body:="Your account has been successfully created. Your account number is : "
+	err=email(newAccount.Email,newAccount.AccountNumber,subject,body)
 	if err!=nil{
 		w.Write([]byte(fmt.Sprint(err)))
 		w.WriteHeader(http.StatusBadRequest)
@@ -76,7 +78,7 @@ func intPow(base, exponent int) int {
 	return result
 }
 
-func email(email string, accountNumber int64)error{
+func email(email string, accountNumber int64,subject string, body string)error{
 	d := gomail.NewDialer("smtp.gmail.com", 587, "shani.mnnit18@gmail.com", "ldysplzxzfwyskzj")
 
 	accountNumberStr := fmt.Sprintf("%d", accountNumber)
@@ -84,8 +86,8 @@ func email(email string, accountNumber int64)error{
 	m := gomail.NewMessage()
 	m.SetHeader("From", "shani.mnnit18@gmail.com")
 	m.SetHeader("To", email)
-	m.SetHeader("Subject", "Account Created Successfully on assurePay")
-	m.SetBody("text/plain", "Your account has been successfully created. Your account number is : "+accountNumberStr)
+	m.SetHeader("Subject", subject)
+	m.SetBody("text/plain", body+accountNumberStr)
 
 	fmt.Println(m)
 	// Send the email
