@@ -191,6 +191,8 @@ func SignUp(w http.ResponseWriter, r *http.Request){
 	   return
 	}
 
+	//verify the email id
+	
 	//Db connection
 	db:=connection.DBConnection()
 	db.Create(&user)

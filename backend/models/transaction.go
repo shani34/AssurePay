@@ -5,8 +5,11 @@ import "gorm.io/gorm"
 
 type Transaction struct{
 	gorm.Model
-	AccountID uint     `json:"accountID"`
+	AccountNumber int64 `json:"accountNumber"`
 	Amount    float64  `json:"amount"`
 	Message   string   `json:"message"`
-	Account   Account  `gorm:"foreignKey:AccountID"` 
+}
+type SendReceive struct{
+	Source int64 `json:"source"`
+	Destination int64 `json:"destination"`
 }

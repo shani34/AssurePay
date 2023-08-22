@@ -25,6 +25,7 @@ func main() {
 
 	// accounts API
     r.HandleFunc("/api/accounts", controller.CreateAccountHandler).Methods("POST")
+	// r.HandleFunc("/api/accounts",)
 	r.HandleFunc("/api/accounts", controller.GetAccountsHandler).Methods("GET")
     
 	//transaction API
