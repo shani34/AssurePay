@@ -59,7 +59,7 @@ const Welcome = () => {
            <a href='/createAccount'>
           <button className={styles.actionButton} >Create New Account</button>
           </a>
-          <a href='/transactionHistory'>
+          <a href='/transaction'>
           <button className={styles.actionButton}>Transaction History</button>
           </a>
           <a href='/updateDetails'>
