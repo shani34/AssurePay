@@ -25,14 +25,15 @@ const Transaction=()=>{
 
             console.log((response).data)
             //removing the value
-            // setAccountNumber('');
-            // setAmount('');
-            // setMessage('');
+            setAccountNumber('');
+            setAmount('');
+            setMessage('');
         }catch(error){
 
             console.log(error)
         }
     };
+
 
     return(
         <div className={CreateForm.BackGround}>
