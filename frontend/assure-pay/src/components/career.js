@@ -47,7 +47,24 @@ const CareerPage = () => {
           </p>
           <button className={career.applyButton}>Apply Now</button>
         </div>
-        {/* Add more job listings as needed */}
+        <div className={styles.sidebar}>
+         <nav className={styles.sidebar}>
+        <ul className={styles.navLinks}>
+        <li>
+            <a href="/welcome"  >Home</a>
+         </li>  
+          <li>
+            <a href="/about">About</a>
+          </li>
+          <li>
+            <a href="/career">Career</a>
+          </li>
+          <li>
+            <a href="/">Logout</a>
+          </li>
+        </ul>
+      </nav>
+      </div>
       </div>
       <footer className={styles.footer}>
           <p>&copy; 2023 AssurePay. All rights reserved.</p>
