@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"fmt"
 
+	"github.com/gorilla/mux"
 	"github.com/shani34/AssurePay/backend/connection"
 	"github.com/shani34/AssurePay/backend/models" // Import the Transaction model
 )
@@ -66,3 +67,19 @@ func GetTransactionsHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(transactions)
 }
 
+func GetBalance(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("content-type","Application/json")
+	mp:=mux.Vars(r)
+	accountNumber:=mp["id"]
+
+	db:=connection.DBConnection()
+	var account models.Account
+	err:=db.Where("account_number=?",accountNumber).Find(&account).Error
+	if err!=nil{
+	   w.Write([]byte(fmt.Sprint(err)))
+	   w.WriteHeader(http.StatusBadRequest)
+	   return
+	}
+
+	json.NewEncoder(w).Encode(account.Balance)
+}

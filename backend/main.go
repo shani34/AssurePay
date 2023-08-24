@@ -25,12 +25,12 @@ func main() {
 
 	// accounts API
     r.HandleFunc("/api/accounts", controller.CreateAccountHandler).Methods("POST")
-	// r.HandleFunc("/api/accounts",)
 	r.HandleFunc("/api/accounts", controller.GetAccountsHandler).Methods("GET")
     
 	//transaction API
 	r.HandleFunc("/api/transaction",controller.CreateTransactionHandler).Methods("POST")
 	r.HandleFunc("/api/transaction",controller.GetTransactionsHandler).Methods("GET")
+	r.HandleFunc("/api/transaction/{id}",controller.GetBalance).Methods("GET")
 
 	//authentication API
 	r.HandleFunc("/api/signin", auth.SignIn).Methods("POST")
