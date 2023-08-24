@@ -1,12 +1,23 @@
 import React from 'react';
 import career from './career.module.css'; // Import the corresponding CSS file
 import styles from './welcome.module.css';
+import user from '../logo/AssurePay.png'
 
 const CareerPage = () => {
   return (
     <div className={career.careerPage}>
-      <h1>Join Our Team</h1>
-      <p>We are always looking for talented individuals to join our team.</p>
+        <header className={career.header}>
+        <img
+          src={user}
+          alt="AssurePay Logo"
+          className={career.logo}
+        />
+        </header>
+     <div className={career.background}></div>
+     <div className={career.headingContainer}>
+        <h1>Join Our Team</h1>
+        <p>We are always looking for talented individuals to join our team.</p>
+      </div>
       <div className={career.jobListing}>
         <div className={career.job}>
           <h2>Software Engineer</h2>
