@@ -6,6 +6,7 @@ import About from './components/about'
 import CreateAccountForm from './components/Accounts';
 import Transaction from './components/transaction';
 import CareerPage from './components/career';
+import Balance from './components/balance';
 import { BrowserRouter as Router, Route, Routes,Navigate } from 'react-router-dom';
 // Import other components here
 
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/createAccount" element={true?<CreateAccountForm />:<Navigate to="/"/>} />
         <Route path='/transaction'element={<Transaction/>}/>
         <Route path='/career'element={<CareerPage/>}/>
+        <Route path='/checkBalance'element={<Balance/>}/>
 
       </Routes>
     </Router>
