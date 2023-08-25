@@ -29,10 +29,17 @@ func CreateTransactionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	db:=connection.DBConnection()
+	tx:=db.Begin()
+	if err:=tx.Error; err!=nil{
+		tx.Rollback()
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprint(err)))
+	}
 	//check account exist or not
 	var account models.Account
-	err=db.Where("account_number=?",newTransaction.AccountNumber).Find(&account).Error
+	err=tx.Where("account_number=?",newTransaction.AccountNumber).Find(&account).Error
 	if err!=nil{
+		tx.Rollback()
 	   w.Write([]byte(fmt.Sprint(err)))
 	   w.WriteHeader(http.StatusBadRequest)
 	   return
@@ -43,19 +50,46 @@ func CreateTransactionHandler(w http.ResponseWriter, r *http.Request) {
 		account.Balance-=newTransaction.Amount
 		subject=fmt.Sprintf("%v",newTransaction.Amount)+" debited"
 		newTransaction.TotalAmount=account.Balance
-		db.Model(&models.Account{}).Where("account_number=?",account.AccountNumber).Update("balance",account.Balance)
+		err:=tx.Model(&models.Account{}).Where("account_number=?",account.AccountNumber).Update("balance",account.Balance).Error
+		if err!=nil{
+			tx.Rollback()
+		 	w.WriteHeader(http.StatusInternalServerError)
+		    w.Write([]byte(fmt.Sprint(err)))
+		   return
+		}
 	}
 	if (newTransaction.Message=="credit" && account.Balance>=newTransaction.Amount){
 		account.Balance+=newTransaction.Amount
 		subject=fmt.Sprintf("%v",newTransaction.Amount)+" credited"
 		newTransaction.TotalAmount=account.Balance
-		db.Model(&models.Account{}).Where("account_number=?",account.AccountNumber).Update("balance",account.Balance)
+		err:=tx.Model(&models.Account{}).Where("account_number=?",account.AccountNumber).Update("balance",account.Balance).Error
+		if err!=nil{
+			tx.Rollback()
+		 	w.WriteHeader(http.StatusInternalServerError)
+		    w.Write([]byte(fmt.Sprint(err)))
+		   return
+		}
 	}
 	//
 	body:=subject+" from account : "
 	email(account.Email,account.AccountNumber,subject,body)
-	db.Create(&newTransaction)
+	err=tx.Create(&newTransaction).Error
+	if err!=nil{
+		tx.Rollback()
+		 w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprint(err)))
+	   return
+	}
 
+
+//commiting the transaction
+	if err:=tx.Commit().Error; err!=nil{
+		tx.Rollback()
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprint(err)))
+		
+		return
+	 }
 
 	json.NewEncoder(w).Encode(&newTransaction)
 	transactions = append(transactions, newTransaction)
@@ -73,13 +107,30 @@ func GetBalance(w http.ResponseWriter, r *http.Request){
 	accountNumber:=mp["id"]
 
 	db:=connection.DBConnection()
+	tx:=db.Begin()
+	if err:=tx.Error; err!=nil{
+		tx.Rollback()
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprint(err)))
+	}
+
 	var account models.Account
-	err:=db.Where("account_number=?",accountNumber).Find(&account).Error
+	err:=tx.Where("account_number=?",accountNumber).Find(&account).Error
 	if err!=nil{
+	   tx.Rollback()
 	   w.Write([]byte(fmt.Sprint(err)))
 	   w.WriteHeader(http.StatusBadRequest)
 	   return
 	}
 
+	//commiting the transaction
+	if err:=tx.Commit().Error; err!=nil{
+		tx.Rollback()
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprint(err)))
+		
+		return
+	 }
+	 
 	json.NewEncoder(w).Encode(account.Balance)
 }

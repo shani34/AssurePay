@@ -32,10 +32,21 @@ func CreateAccountHandler(w http.ResponseWriter, r *http.Request) {
 
 	var alreadyAccount models.Account
 	db:=connection.DBConnection()
-	err=db.Where("adhaar=?",newAccount.Adhaar).Find(&alreadyAccount).Error
+	//start transaction
+	tx:=db.Begin()
+	if tx.Error!=nil{
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprint(err)))
+		
+		return
+	}
+
+	err=tx.Where("adhaar=?",newAccount.Adhaar).Find(&alreadyAccount).Error
 	if err!=nil{
+	   tx.Rollback()
+	   w.WriteHeader(http.StatusInternalServerError)
 	   w.Write([]byte(fmt.Sprint(err)))
-	   w.WriteHeader(http.StatusBadRequest)
+	  
 	   return
 	}
 	if !reflect.DeepEqual(alreadyAccount,models.Account{}){
@@ -53,11 +64,27 @@ func CreateAccountHandler(w http.ResponseWriter, r *http.Request) {
 	body:="Your account has been successfully created. Your account number is : "
 	err=email(newAccount.Email,newAccount.AccountNumber,subject,body)
 	if err!=nil{
-		w.Write([]byte(fmt.Sprint(err)))
 		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(fmt.Sprint(err)))
+		
 		return 
 	}
-    db.Create(&newAccount)
+    err=tx.Create(&newAccount).Error
+	if err!=nil{
+		tx.Rollback()
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprint(err)))
+		
+		return
+	 }
+
+	 if err:=tx.Commit().Error; err!=nil{
+		tx.Rollback()
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprint(err)))
+		
+		return
+	 }
 
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(newAccount)
@@ -102,7 +129,30 @@ func email(email string, accountNumber int64,subject string, body string)error{
 func GetAccountsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	db:=connection.DBConnection()
+	tx:=db.Begin()
+	if tx.Error!=nil{
+		tx.Rollback()
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprint(tx.Error)))
+		return
+	 }
+
 	var accounts []models.Account
-    db.Find(&accounts)
+    err:=tx.Find(&accounts).Error
+	if err!=nil{
+		tx.Rollback()
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprint(tx.Error)))
+		
+	}
+
+	if err:=tx.Commit().Error; err!=nil{
+		tx.Rollback()
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprint(err)))
+		
+		return
+	 }
+
 	json.NewEncoder(w).Encode(accounts)
 }
