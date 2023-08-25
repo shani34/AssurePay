@@ -23,8 +23,10 @@ const Welcome = () => {
       });
   }, []);
 
-
-
+const Logout=async (e) =>{
+  e.preventDefaukt();
+  localStorage.setItem('login',false);
+}
   return (
 
     <div className={styles.welcome}>
@@ -48,7 +50,7 @@ const Welcome = () => {
             <a href="/career">Career</a>
           </li>
           <li>
-            <a href="/logout">Logout</a>
+            <a href="/" onClick={Logout}>Logout</a>
           </li>
         </ul>
       </nav>

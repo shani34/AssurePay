@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from '../api/axios';
 import styles from './styles.module.css'
 import Welcome from './welcome';
-import { isAuth } from './auth';
+import isAuthenticated from './auth';
 import {useNavigate} from 'react-router-dom'
 
 
@@ -31,11 +31,11 @@ const SignIn = () => {
 
        let token=response.data.cookie
        if (token){
+        // isAuthenticated=true
+        localStorage.setItem('login',true)
         console.log(token)
         setLoggedIn(true)
         window.alert("successfully logged in")
-        isAuth=true
-        console.log(isAuth);
         navigate('/welcome');
        axios.defaults.headers.common['Authorization']=`Bearer ${token}`;
        }else{
@@ -56,6 +56,8 @@ const SignIn = () => {
             // Handle other error cases
           }
         }
+         console.log(error)
+      setErrorMessage(error);
       setErrorMessage('An error occurred while logging in');
       // Handle login error
     } 
@@ -90,8 +92,8 @@ const SignIn = () => {
             // Handle other error cases
           }
         }
-      setErrorMessage('An error occurred while logging in');
-      // Handle login error
+      console.log(error)
+      setErrorMessage(error);
     } 
   };
 
@@ -108,7 +110,7 @@ const SignIn = () => {
           <input
             type="email"
             placeholder="Email"
-            required="true"
+            required={true}
             value={username}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -117,7 +119,7 @@ const SignIn = () => {
           <input
             type="password"
             placeholder="Password"
-            required="true"
+            required={true}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -127,7 +129,7 @@ const SignIn = () => {
             <input
               type="password"
               placeholder="Retype Password"
-              required="true"
+              required={true}
               value={repassword}
               onChange={(e) => retypePassword(e.target.value)}
             />
@@ -145,9 +147,7 @@ const SignIn = () => {
   );
 };
 
-console.log(isAuth)
-export const IsAuthenticated=() => {
-  return isAuth; // Return true if authenticated, false otherwise
-};
-
+// export const IsAuthenticated=() => {
+//   return isAuth; // Return true if authenticated, false otherwise
+// };
 export default SignIn;

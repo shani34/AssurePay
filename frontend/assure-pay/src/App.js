@@ -7,21 +7,23 @@ import CreateAccountForm from './components/Accounts';
 import Transaction from './components/transaction';
 import CareerPage from './components/career';
 import Balance from './components/balance';
+import Protected from './components/protected';
 import { BrowserRouter as Router, Route, Routes,Navigate } from 'react-router-dom';
 // Import other components here
 
 
 const App = () => {
+  let isAuth=localStorage.getItem('login')
   return (
     <Router>
       <Routes>
         <Route path="/" element={<SignIn />} />
-        <Route path="/welcome" element={true? <Welcome />:<Navigate to="/"/>} />
-        <Route path="/about" element={true? <About />:<Navigate to="/"/>} />
-        <Route path="/createAccount" element={true?<CreateAccountForm />:<Navigate to="/"/>} />
-        <Route path='/transaction'element={<Transaction/>}/>
-        <Route path='/career'element={<CareerPage/>}/>
-        <Route path='/checkBalance'element={<Balance/>}/>
+        <Route path="/welcome"element={<Protected Component={Welcome}/>} />
+        <Route path="/about" element={<Protected Component={About}/>} />
+        <Route path="/createAccount" element={<Protected Component={CreateAccountForm}/>} />
+        <Route path='/transaction'element={<Protected Component={Transaction}/>}/>
+        <Route path='/career'element={<Protected Component={CareerPage}/>}/>
+        <Route path='/checkBalance'element={<Protected Component={Balance}/>}/>
 
       </Routes>
     </Router>

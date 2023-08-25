@@ -1,1 +1,3 @@
-export let isAuth = false;
+
+let isAuthenticated = false
+export default isAuthenticated;
