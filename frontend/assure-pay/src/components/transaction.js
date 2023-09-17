@@ -7,7 +7,8 @@ import axios from "../api/axios";
 
 const Transaction=()=>{
 
-    const[accountNumber, setAccountNumber]=useState('');;
+    const[SenderaccountNumber, setSenderAccountNumber]=useState('');;
+    const[RecieveraccountNumber, setRecieverAccountNumber]=useState('');;
     const[amount, setAmount]=useState('');;
     const[message, setMessage]=useState('');
     const messages=["withdraw","credit"];
@@ -15,7 +16,8 @@ const Transaction=()=>{
         e.preventDefault();
             try{
             const data=JSON.stringify({
-                accountNumber: parseInt(accountNumber),
+                sender: parseInt(SenderaccountNumber),
+                receiver: parseInt(RecieveraccountNumber),
                 amount: parseFloat(amount),
                 message: message
             })
@@ -25,9 +27,11 @@ const Transaction=()=>{
 
             console.log((response).data)
             //removing the value
-            setAccountNumber('');
+            setSenderAccountNumber('');
             setAmount('');
             setMessage('');
+            setRecieverAccountNumber('');
+
         }catch(error){
 
             console.log(error)
@@ -40,11 +44,19 @@ const Transaction=()=>{
              <div className={CreateForm.createAccountForm}>
                 <form onSubmit={handleSubmit}>
                 <div>
-                <label> Account Number</label>
+                <label> Sender Account Number</label>
                 <input
                   type="number"
-                  value={accountNumber}
-                  onChange={(e)=>setAccountNumber(e.target.value)}
+                  value={SenderaccountNumber}
+                  onChange={(e)=>setSenderAccountNumber(e.target.value)}
+                />
+                </div>
+                <div>
+                <label> Receiver Account Number</label>
+                <input
+                  type="number"
+                  value={RecieveraccountNumber}
+                  onChange={(e)=>setRecieverAccountNumber(e.target.value)}
                 />
                 </div>
                 <div>

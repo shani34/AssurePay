@@ -23,10 +23,10 @@ const Welcome = () => {
       });
   }, []);
 
-const Logout=async (e) =>{
-  e.preventDefaukt();
-  localStorage.setItem('login',false);
+function Logout(){
+  localStorage.setItem('login', null);
 }
+
   return (
 
     <div className={styles.welcome}>
