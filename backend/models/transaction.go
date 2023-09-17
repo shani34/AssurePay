@@ -5,7 +5,8 @@ import "gorm.io/gorm"
 
 type Transaction struct{
 	gorm.Model
-	AccountNumber int64 `json:"accountNumber"`
+	Sender int64 `json:"sender"`
+	Receiver int64 `json:"receiver"`
 	Amount    float64  `json:"amount"`
 	TotalAmount float64 `json:"TotalAmount"`
 	Message   string   `json:"message"`

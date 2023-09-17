@@ -22,7 +22,7 @@ func CreateTransactionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//checking if any field are missing 
-	if(newTransaction.AccountNumber<0|| newTransaction.Amount<=0.00||(newTransaction.Message!="withdraw" && newTransaction.Message!="credit")){
+	if(newTransaction.Sender<0|| newTransaction.Amount<=0.00||(newTransaction.Message!="withdraw" && newTransaction.Message!="credit")){
 		w.Write([]byte("invalid crednetials"))
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -36,43 +36,56 @@ func CreateTransactionHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(fmt.Sprint(err)))
 	}
 	//check account exist or not
-	var account models.Account
-	err=tx.Where("account_number=?",newTransaction.AccountNumber).Find(&account).Error
+	var senderAccount models.Account
+	err=tx.Where("account_number=?",newTransaction.Sender).Find(&senderAccount).Error
 	if err!=nil{
 		tx.Rollback()
-	   w.Write([]byte(fmt.Sprint(err)))
+	 w.Write([]byte(fmt.Sprint(err)))
+	   w.WriteHeader(http.StatusBadRequest)
+	   return
+	}
+	var receiverAccount models.Account
+
+	err=tx.Where("account_number=?",newTransaction.Receiver).Find(&receiverAccount).Error
+	if err!=nil{
+		tx.Rollback()
+	 	w.Write([]byte(fmt.Sprint(err)))
 	   w.WriteHeader(http.StatusBadRequest)
 	   return
 	}
 
 	subject:=""
-	if (newTransaction.Message=="withdraw" && account.Balance>=newTransaction.Amount){
-		account.Balance-=newTransaction.Amount
+	
+		senderAccount.Balance-=newTransaction.Amount
 		subject=fmt.Sprintf("%v",newTransaction.Amount)+" debited"
-		newTransaction.TotalAmount=account.Balance
-		err:=tx.Model(&models.Account{}).Where("account_number=?",account.AccountNumber).Update("balance",account.Balance).Error
+		newTransaction.TotalAmount=senderAccount.Balance
+		err=tx.Model(&models.Account{}).Where("account_number=?",senderAccount.AccountNumber).Update("balance",senderAccount.Balance).Error
 		if err!=nil{
 			tx.Rollback()
 		 	w.WriteHeader(http.StatusInternalServerError)
 		    w.Write([]byte(fmt.Sprint(err)))
 		   return
 		}
-	}
-	if (newTransaction.Message=="credit" && account.Balance>=newTransaction.Amount){
-		account.Balance+=newTransaction.Amount
+
+
+		body:=subject+" from account : "
+		email(senderAccount.Email,senderAccount.AccountNumber,subject,body)
+	
+		subject=""
+		receiverAccount.Balance+=newTransaction.Amount
 		subject=fmt.Sprintf("%v",newTransaction.Amount)+" credited"
-		newTransaction.TotalAmount=account.Balance
-		err:=tx.Model(&models.Account{}).Where("account_number=?",account.AccountNumber).Update("balance",account.Balance).Error
+		newTransaction.TotalAmount=receiverAccount.Balance
+		err=tx.Model(&models.Account{}).Where("account_number=?",receiverAccount.AccountNumber).Update("balance",receiverAccount.Balance).Error
 		if err!=nil{
 			tx.Rollback()
 		 	w.WriteHeader(http.StatusInternalServerError)
 		    w.Write([]byte(fmt.Sprint(err)))
 		   return
 		}
-	}
+	
 	//
-	body:=subject+" from account : "
-	email(account.Email,account.AccountNumber,subject,body)
+	body=subject+" to account : "
+	email(receiverAccount.Email,receiverAccount.AccountNumber,subject,body)
 	err=tx.Create(&newTransaction).Error
 	if err!=nil{
 		tx.Rollback()
